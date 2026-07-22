@@ -1,10 +1,9 @@
 import exprsss from 'express'
+import { signup } from '../controllers/auth.controller.js';
 
 const router =exprsss.Router();
 
-router.get('/signup',(req,res)=>{
-    res.send("Singup");
-})
+router.get('/signup',signup)
 
 router.get("/login",(req,res)=>{
     res.send("Login");
