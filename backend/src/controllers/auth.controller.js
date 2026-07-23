@@ -2,9 +2,9 @@ import { sendWelcomeEmail } from '../emails/emailHandlers.js';
 import { genrateToken } from '../lib/utils.js';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
-import {ENV} from '../lib/env.js'
+import { ENV } from '../lib/env.js'
 
-
+///Sign UP
 export const signup = async (req, res) => {
   // Extract user details from the request body
   const { fullName, email, password } = req.body;
@@ -78,3 +78,44 @@ export const signup = async (req, res) => {
     });
   }
 };
+
+//Login 
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+    //find user from db using email
+    const user = await User.findOne({email});
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials !" });
+    }
+    //check password
+    const checkpassword = await bcrypt.compare(password, user.password)
+    if (!checkpassword) {
+      return res.status(400).json({ message: "Invalid credentials !" });
+    }
+    genrateToken(user._id, res);
+
+    res.status(201).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    })
+
+  } catch (error) {
+ console.log("Error in login ", error);
+    res.status(500).json({
+      message: "Internal server error"
+    });
+  }
+}
+
+//Logout
+
+export const logout = async (req, res) => {
+  res.cookie("jwt","",{maxAge:0});
+  res.status(200).json({ message: "Logged out successfully" });
+}
