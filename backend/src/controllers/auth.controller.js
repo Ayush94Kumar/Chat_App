@@ -3,6 +3,7 @@ import { genrateToken } from '../lib/utils.js';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import { ENV } from '../lib/env.js'
+import {cloudinary} from '../lib/cloudinary.js'
 
 ///Sign UP
 export const signup = async (req, res) => {
@@ -119,3 +120,26 @@ export const logout = async (req, res) => {
   res.cookie("jwt","",{maxAge:0});
   res.status(200).json({ message: "Logged out successfully" });
 }
+
+//update Profile
+export const updateProfile = async(req,res)=>{
+  try {
+     const {profilePic} = req.body;
+  if(!profilePic) return res.status(400).json({message:"Profile pic is required !"});
+
+  const userId= req.user._id
+  const Response= await cloudinary.uploader.upload(profilePic);
+
+  const updatedUser= await User.findByIdAndUpdate(
+    userId,
+    {profilePic:Response.secure_url},
+    {new:true}
+  );
+  res.status(200).json(updatedUser);
+
+  } catch (error) {
+     console.log("Error in update profile:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+ 
