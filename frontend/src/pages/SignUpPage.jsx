@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import BorderAnimatedContainer from '../components/BorderAnimation';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { MessageCircleIcon, UserIcon, MailIcon, LockIcon, LoaderIcon } from "lucide-react";
 
 function SignUpPage() {
@@ -14,11 +14,11 @@ function SignUpPage() {
   }
 
   return (
-    <div className='w-full flex items-center justify-center p-4 bg-slate-900'>
+    <div className='w-full flex items-center justify-center p-4 bg-gray-900'>
       <div className='relative w-full max-w-6xl md:h-[800px] h-[650px]'>
         <BorderAnimatedContainer>
           <div className="w-full flex flex-col md:flex-row">
-            {/* FORM CLOUMN - LEFT SIDE */}
+            {/*  LEFT SIDE */}
             <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
               <div className="w-full max-w-md">
                 {/* HEADING TEXT */}
@@ -41,7 +41,7 @@ function SignUpPage() {
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                         className="input"
-                        placeholder="John Doe"
+                        placeholder="Raju Kumar"
                       />
                     </div>
                   </div>
@@ -57,7 +57,7 @@ function SignUpPage() {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="input"
-                        placeholder="johndoe@gmail.com"
+                        placeholder="raju@gmail.com"
                       />
                     </div>
                   </div>
@@ -96,7 +96,7 @@ function SignUpPage() {
               </div>
             </div>
 
-            {/* FORM ILLUSTRATION - RIGHT SIDE */}
+            {/*  RIGHT SIDE */}
             <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-slate-800/20 to-transparent">
               <div>
                 <img
