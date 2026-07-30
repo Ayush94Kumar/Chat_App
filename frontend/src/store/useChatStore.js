@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 
 export const useChatStore = create((set, get) => ({
@@ -47,7 +48,8 @@ export const useChatStore = create((set, get) => ({
             const res = await axiosInstance.get("/messages/chats");
             set({ chats: res.data });
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || error.message);
+            console.error("Failed to fetch chat partners:", error);
         } finally {
             set({ isUsersLoading: false });
         }
