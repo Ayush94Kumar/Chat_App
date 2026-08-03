@@ -5,10 +5,10 @@ import { connectDB } from './lib/db.js';
 import {ENV} from './lib/env.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import {app, server} from './lib/socket.js'
 
 const PORT=ENV.PORT || 5000;
 
-const app=express();
 
 app.use(cookieParser());
 app.use(cors({origin:ENV.CLIENT_URL, credentials:true}));
@@ -18,7 +18,7 @@ app.use('/api/auth',authRoutes);
 app.use('/api/messages',messageRoutes);
 
 
-app.listen(PORT,(req,res)=>
+server.listen(PORT,(req,res)=>
 {
     console.log(`server running on http://localhost:${PORT}`)
     connectDB()
